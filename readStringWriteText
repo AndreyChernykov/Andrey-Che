@@ -5,13 +5,12 @@ import java.util.Scanner;
 
 
 /*Дан текст. Заменить все цифры соответствующими словами
-Введие текст с цифрами в файл input.temp, если файл не создать, при первом запуске файл будет создан автоматически, сохраните текст в нем 
  */
 
 public class Main {
 	
 	static String[]nums = {"ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"};
-	static String text;
+	static String text = "";
 	static String fileVoid = "Файл input.temp пустой, пожалуйсто введите в файл данные и перезапустите программу";
 	
 	public static void main(String [] args) throws Exception {
@@ -27,7 +26,9 @@ public class Main {
 			FileReader fr = new FileReader("input.temp");//читаем файл, строку и выводим на печать
 			Scanner scan = new Scanner(fr);
 			if(scan.hasNext()) {
-				text = scan.nextLine();
+				while(scan.hasNextLine()) {
+					text = text.concat(scan.nextLine() + '\n');
+				}
 				System.out.println("Данные прочитаны из файла input.temp");
 				return true;
 			}else {
