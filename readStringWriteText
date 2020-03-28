@@ -1,0 +1,69 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Scanner;
+
+
+/*Дан текст. Заменить все цифры соответствующими словами
+Введие текст с цифрами в файл input.temp, если файл не создать, при первом запуске файл будет создан автоматически, сохраните текст в нем 
+ */
+
+public class Main {
+	
+	static String[]nums = {"ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"};
+	static String text;
+	static String fileVoid = "Файл input.temp пустой, пожалуйсто введите в файл данные и перезапустите программу";
+	
+	public static void main(String [] args) throws Exception {
+		
+		if(fileToRead()) {//код сработает если файл существует и не пустой
+			workWithText();
+			fileToWrite();
+		}		
+	}
+	
+	static boolean fileToRead() throws Exception{
+		if(new File("input.temp").exists()) {//проверяем на существование файл
+			FileReader fr = new FileReader("input.temp");//читаем файл, строку и выводим на печать
+			Scanner scan = new Scanner(fr);
+			if(scan.hasNext()) {
+				text = scan.nextLine();
+				System.out.println("Данные прочитаны из файла input.temp");
+				return true;
+			}else {
+				System.out.println(fileVoid);
+			}
+			fr.close();
+			return false;
+		}else {//если файла несуществует, то создаём его
+			File file = new File("input.temp");
+			file.createNewFile();
+			System.out.println("Был создан новый файл input.temp");
+			System.out.println(fileVoid);
+			return false;
+		}
+	}
+	
+	static void workWithText() {//работаем с текстом		
+		for(int i = 0; i < text.length(); i++) {//читаем строку
+			if(text.charAt(i) > 48 && text.charAt(i) < 57) {//если попадается цифра, ищем по ней индекс значения в массиве и меняем на значение из массива
+				int tempInt = Character.getNumericValue(text.charAt(i));
+				String tempStr = Integer.toString(tempInt);
+				text = text.replace(tempStr, nums[tempInt]);
+			}
+		}
+		System.out.println("Данные обработаны программой");
+	}
+	
+	static void fileToWrite() throws Exception{//записываем в файл
+		if(!(new File("output.temp").exists())) {//если файла не существует создаём его
+			File file = new File("output.temp");
+			file.createNewFile();
+			System.out.println("Был создан новый файл output.temp");
+		}
+		FileWriter fw = new FileWriter("output.temp");//пишем данные в файл
+		fw.write(text);
+		fw.close();
+		System.out.println("Данные записаны в файл output.temp");
+	}
+}
