@@ -5,7 +5,11 @@ public class Knife{
 	private String knife;
 	private int lengthKnife;
 	
-	Knife() {//конструктор по умолчанию
+	public static void factoryKnife(String nameKnife, int intLengthKnife) {//фабричный метод
+		Knife knife = new Knife();		
+		knife.setKnife(nameKnife);
+		knife.setLengthKnife(intLengthKnife);
+		Knife.knifeList.add(knife);
 	}
 	
 	public int getLengthKnife() {//длинна ножа
